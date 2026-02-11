@@ -1,35 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="./styles.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Bae</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fff0f3;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(255, 75, 110, 0.2);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+        }
+
+        h1 { color: #ff4b6e; margin-bottom: 20px; font-size: 1.8rem; }
         
-    </head> 
-    <body>
-        <div class="container">
-            <div >
-                <h1 class = "header_text">CUPCAKE, CAN YOU TAKE THIS MOTU OUT PLEASE</h1>
-                <h1 class = "header_text">PLEASE TOMORROW</h1>
-            </div>
-            <div class="gif_container">
-                <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDdtZ2JiZDR0a3lvMWF4OG8yc3p6Ymdvd3g2d245amdveDhyYmx6eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute animated illustration">
-            </div>
-            <div class = "buttons">
-                <button class="btn" id = "yesButton" onclick="nextPage()">OBVIOUSLY</button>
-                <button class="btn" id="noButton" onmouseover="moveButton()" onclick="moveButton()">NO</button>
-                <script>
-                    function nextPage() {
-                        window.location.href = "yes.html";
-                    }
-                    
-                    function moveButton() {
-                        var x = Math.random() * (window.innerWidth - document.getElementById('noButton').offsetWidth) - 85;
-                        var y = Math.random() * (window.innerHeight - document.getElementById('noButton').offsetHeight) - 48;
-                        document.getElementById('noButton').style.left = `${x}px`;
-                        document.getElementById('noButton').style.top = `${y}px`;
-                    }
-                </script> 
-            </div>
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .primary-btn { background-color: #ff4b6e; color: white; }
+        .secondary-btn { background-color: #ff85a1; color: white; }
+
+        /* FULL PAGE GIF OVERLAY */
+        #fullPageGif {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: white;
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Adjusting the Tenor Embed size */
+        .tenor-gif-embed {
+            width: 80% !important;
+            max-width: 600px;
+        }
+
+        .hidden { display: none !important; }
+        .gif-img { width: 100%; max-width: 250px; border-radius: 15px; margin-bottom: 15px; }
+
+        .heart {
+            position: absolute;
+            color: #ff4b6e;
+            animation: fall linear forwards;
+            z-index: 10000;
+        }
+
+        @keyframes fall { to { transform: translateY(100vh); } }
+    </style>
+</head>
+<body>
+
+    <div id="step1" class="card">
+        <img class="gif-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmc3Ymd0eHByMm9oZ3M0eWpobjR4ZzR4ZzR4ZzR4ZzR4ZzR4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/L4lvBps6shpX4pInET/giphy.gif">
+        <h1>Do you know that I love you??</h1>
+        <div class="btn-container">
+            <button class="primary-btn" onclick="showFullGif()">Yes</button>
+            <button class="secondary-btn" onclick="showFullGif()">Obviously</button>
         </div>
-       
-    </body> 
+    </div>
+
+    <div id="fullPageGif">
+        <div class="tenor-gif-embed" data-postid="5359433813916745127" data-share-method="host" data-aspect-ratio="1.28351" data-width="100%">
+            <a href="https://tenor.com/view/hhgf-gif-5359433813916745127">Hhgf GIF</a>
+        </div>
+        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    </div>
+
+    <div id="step2" class="card hidden">
+        <img id="mainGif" class="gif-img" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOW9mYm9oZ3N4ZzR4ZzR4ZzR4ZzR4ZzR4ZzR4ZzR4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/c76IJLufpNwSULPk2m/giphy.gif">
+        <h1 id="mainText">Will you become my Valentine forever? 🌹</h1>
+        <div class="btn-container" id="finalButtons">
+            <button id="yesBtn" class="primary-btn">YES! ❤️</button>
+            <button id="noBtn" class="secondary-btn">No</button>
+        </div>
+    </div>
+
+    <script>
+        function showFullGif() {
+            document.getElementById('step1').classList.add('hidden');
+            const fullGifDiv = document.getElementById('fullPageGif');
+            fullGifDiv.style.display = 'flex';
+
+            // Shows your Tenor GIF for 4 seconds
+            setTimeout(() => {
+                fullGifDiv.style.display = 'none';
+                document.getElementById('step2').classList.remove('hidden');
+            }, 4000);
+        }
+
+        // Runaway No Button
+        const noBtn = document.getElementById('noBtn');
+        noBtn.addEventListener('mouseover', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        // Yes Button
+        const yesBtn = document.getElementById('yesBtn');
+        yesBtn.addEventListener('click', () => {
+            document.getElementById('mainText').innerText = "I knew it! You're mine forever! 🥰❤️";
+            document.getElementById('mainGif').src = "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3hmd3R4ZzR4ZzR4ZzR4ZzR4ZzR4ZzR4ZzR4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MDJ9IbxxvDUQM/giphy.gif";
+            document.getElementById('finalButtons').classList.add('hidden');
+            startHearts();
+        });
+
+        function startHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = '-20px';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 100);
+        }
+    </script>
+</body>
 </html>
